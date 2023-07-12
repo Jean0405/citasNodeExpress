@@ -1,11 +1,11 @@
 import mysql from "mysql2/promise";
 import { Router } from "express";
 
-const STORAGE_PACIENTES = Router();
+const STORAGE_CITAS = Router();
 
 let conn = undefined;
 
-STORAGE_PACIENTES.use(async (req, res, next) => {
+STORAGE_CITAS.use(async (req, res, next) => {
   try {
     let CONFIG_CONN = JSON.parse(process.env.MY_CONNECTION);
     conn = await mysql.createPool(CONFIG_CONN);
@@ -15,13 +15,17 @@ STORAGE_PACIENTES.use(async (req, res, next) => {
   }
 });
 
-STORAGE_PACIENTES.get("/", async (req, res) => {
+STORAGE_CITAS.get("/:order", async (req, res) => {
+  const order = req.params.order.toUpperCase();
+  console.log(order);
   try {
-    const [rows, fields] = await conn.execute(/*sql*/ `SELECT * FROM usuario`);
+    const [rows, fields] = await conn.execute(
+      /*sql*/ `SELECT * FROM cita ORDER BY cit_fecha ${order}`
+    );
     res.send(rows);
   } catch (error) {
     res.status(500).json({ message: "ERROR TO GET DATA", error: error });
   }
 });
 
-export default STORAGE_PACIENTES;
+export default STORAGE_CITAS;
