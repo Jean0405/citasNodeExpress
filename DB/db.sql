@@ -96,6 +96,8 @@ insert into
     consultorio (cons_nombre)
 values ('Recepción 1'), ('Recepción 2'), ('Recepción 3'), ('Pediatria'), ('Pediatria prem'), ('Odontología');
 
+INSERT INTO especialidad (esp_nombre) VALUES ("Pediatria");
+
 insert into
     genero (gen_nombre, gen_abreviatura)
 values ('Masculino', 'M'), ('Femenino', 'F'), ('Otro', 'Otro');
@@ -107,7 +109,7 @@ INSERT INTO
         med_consultorio,
         med_especialidad
     )
-VALUES (112,"Akio Diaz",15,2);
+VALUES (112, "Akio Diaz", 1, 2);
 
 INSERT INTO
     estado_cita (estcita_id, estcita_nombre)
@@ -168,10 +170,8 @@ INSERT INTO
         cit_datosUsuario
     )
 VALUES (
-        "2023-07-12 10:30:00",
+        "2023-07-15 02:30:00",
         2,
-        111,
+        112,
         1098817567
     );
-
-    SELECT * FROM especialidad;
