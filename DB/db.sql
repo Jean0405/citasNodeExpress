@@ -107,11 +107,11 @@ INSERT INTO
         med_consultorio,
         med_especialidad
     )
-VALUES (111, "David Rojas", 10, 1);
+VALUES (112,"Akio Diaz",15,2);
 
 INSERT INTO
     estado_cita (estcita_id, estcita_nombre)
-VALUES (2, "aplazada");
+VALUES (3, "aplazada");
 
 INSERT INTO
     tipo_documento (
@@ -159,3 +159,19 @@ VALUES (
         1,
         1
     );
+
+INSERT INTO
+    cita(
+        cit_fecha,
+        cit_estadoCita,
+        cit_medico,
+        cit_datosUsuario
+    )
+VALUES (
+        "2023-07-12 10:30:00",
+        2,
+        111,
+        1098817567
+    );
+
+    SELECT * FROM especialidad;

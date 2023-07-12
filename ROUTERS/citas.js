@@ -3,8 +3,6 @@ import { Router } from "express";
 
 const STORAGE_CITAS = Router();
 
-let conn = undefined;
-
 STORAGE_CITAS.use(async (req, res, next) => {
   try {
     let CONFIG_CONN = JSON.parse(process.env.MY_CONNECTION);
@@ -17,7 +15,6 @@ STORAGE_CITAS.use(async (req, res, next) => {
 
 STORAGE_CITAS.get("/:order", async (req, res) => {
   const order = req.params.order.toUpperCase();
-  console.log(order);
   try {
     const [rows, fields] = await conn.execute(
       /*sql*/ `SELECT * FROM cita ORDER BY cit_fecha ${order}`
