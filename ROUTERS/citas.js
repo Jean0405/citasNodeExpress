@@ -71,4 +71,27 @@ WHERE
   }
 });
 
+STORAGE_CITAS.get("/?citas_estado=:estado", async (req, res) => {
+  const estado = req.params.estado.toUpperCase();
+  console.log(estado);
+  try {
+    const [rows, fields] = await conn.execute(
+      /*sql*/ `SELECT
+    cita.cit_fecha AS fecha_cita,
+    usuario.usu_nombre AS paciente,
+    medico.med_nombreCompleto AS medico
+FROM cita
+    INNER JOIN estado_cita ON cita.cit_estadoCita = estado_cita.estcita_id
+    INNER JOIN usuario ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    estado_cita.estcita_nombre = ?;`,
+      [estado]
+    );
+    res.send(rows);
+  } catch (error) {
+    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+  }
+});
+
 export default STORAGE_CITAS;

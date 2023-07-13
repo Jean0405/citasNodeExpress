@@ -113,7 +113,7 @@ VALUES (112, "Akio Diaz", 1, 2);
 
 INSERT INTO
     estado_cita (estcita_id, estcita_nombre)
-VALUES (3, "aplazada");
+VALUES (4, "rechazada");
 
 INSERT INTO
     tipo_documento (
@@ -149,15 +149,15 @@ INSERT INTO
         usu_acudiente
     )
 VALUES (
-        1005184201,
-        "Keanon",
-        "Jeanpierre",
+        1005184202,
+        "Sara",
+        "",
         "Angarita",
         "Olarte",
-        "3224097916",
+        "3224097917",
         "Monterredondo",
-        "Jean0405@gmail.com",
-        1,
+        "sara@gmail.com",
+        2,
         2,
         1
     );
@@ -170,10 +170,10 @@ INSERT INTO
         cit_datosUsuario
     )
 VALUES (
-        "2023-07-30 02:30:00",
-        2,
-        112,
-        1005184201
+        "2023-10-20 02:30:00",
+        3,
+        111,
+        1005184202
     );
 
 SELECT
@@ -250,4 +250,19 @@ FROM cita
 WHERE
     genero.gen_abreviatura = "F";
 
-SELECT * FROM estado_cita;
+SELECT
+    cita.cit_fecha AS fecha_cita,
+    usuario.usu_nombre AS paciente,
+    medico.med_nombreCompleto AS medico
+FROM cita
+    INNER JOIN estado_cita ON cita.cit_estadoCita = estado_cita.estcita_id
+    INNER JOIN usuario ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    estado_cita.estcita_nombre = "activo";
+
+INSERT INTO
+    estado_cita (estcita_id, estcita_nombre)
+VALUES (4, "aplazada");
+
+SELECT * FROM cita;
