@@ -29,4 +29,27 @@ STORAGE_MEDICOS.get("/:especialidad", async (req, res) => {
   }
 });
 
+STORAGE_MEDICOS.get("/medico_agenda/:med_id", async (req, res) => {
+  const med_id = req.params.med_id;
+  console.log(med_id);
+  try {
+    const [rows, fields] = await conn.execute(
+      /*sql*/ `SELECT
+    usuario.*,
+    cita.cit_fecha,
+    medico.med_nroMatriculaProsional,
+    medico.med_nombreCompleto
+FROM usuario
+    INNER JOIN cita ON usuario.usu_id = cita.cit_datosUsuario
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    medico.med_nroMatriculaProsional = ?`,
+      [med_id]
+    );
+    res.send(rows);
+  } catch (error) {
+    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+  }
+});
+
 export default STORAGE_MEDICOS;

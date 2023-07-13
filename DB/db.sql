@@ -175,3 +175,16 @@ VALUES (
         112,
         1098817567
     );
+
+SELECT * FROM medico;
+
+SELECT
+    usuario.*,
+    cita.cit_fecha,
+    medico.med_nroMatriculaProsional,
+    medico.med_nombreCompleto
+FROM usuario
+    INNER JOIN cita ON usuario.usu_id = cita.cit_datosUsuario
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    medico.med_nroMatriculaProsional = 112;
