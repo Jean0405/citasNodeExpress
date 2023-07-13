@@ -51,6 +51,7 @@ WHERE
     res.status(500).json({ message: "ERROR TO GET DATA", error: error });
   }
 });
+
 STORAGE_MEDICOS.get("/medicos_consultorios", async (req, res) => {
   try {
     const [rows, fields] = await conn.execute(/*sql*/ `SELECT
@@ -61,6 +62,30 @@ STORAGE_MEDICOS.get("/medicos_consultorios", async (req, res) => {
 FROM medico
     INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
     INNER JOIN especialidad ON medico.med_especialidad = especialidad.esp_id`);
+    res.send(rows);
+  } catch (error) {
+    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+  }
+});
+
+STORAGE_MEDICOS.get("/medico_citas/med_id=:med_id", async (req, res) => {
+  const med_nroMatriculaProsional = req.params.med_id;
+  const cit_fecha = req.body.cit_fecha;
+  console.log(med_nroMatriculaProsional);
+  console.log(cit_fecha);
+  try {
+    const [rows, fields] = await conn.execute(
+      /*sql*/ `SELECT
+    COUNT(*) AS total_citas,
+    cita.cit_fecha,
+    medico.med_nombreCompleto
+FROM cita
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    medico.med_nroMatriculaProsional = ?
+    AND cita.cit_fecha = ? GROUP BY cita.cit_fecha, medico.med_nombreCompleto`,
+      [med_nroMatriculaProsional, cit_fecha]
+    );
     res.send(rows);
   } catch (error) {
     res.status(500).json({ message: "ERROR TO GET DATA", error: error });

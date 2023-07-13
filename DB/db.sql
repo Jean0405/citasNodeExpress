@@ -220,3 +220,13 @@ SELECT
 FROM medico
     INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
     INNER JOIN especialidad ON medico.med_especialidad = especialidad.esp_id;
+
+SELECT
+    COUNT(*) AS total_citas,
+    cita.cit_fecha,
+    medico.med_nombreCompleto
+FROM cita
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    medico.med_nroMatriculaProsional = 112
+    AND cita.cit_fecha = "2023-07-20";
