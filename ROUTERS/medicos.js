@@ -15,7 +15,7 @@ STORAGE_MEDICOS.use(async (req, res, next) => {
   }
 });
 
-STORAGE_MEDICOS.get("/:especialidad", async (req, res) => {
+STORAGE_MEDICOS.get("/med_especialidad=:especialidad", async (req, res) => {
   const especialidad = req.params.especialidad;
   console.log(req.params);
   try {
@@ -29,7 +29,7 @@ STORAGE_MEDICOS.get("/:especialidad", async (req, res) => {
   }
 });
 
-STORAGE_MEDICOS.get("/medico_agenda/:med_id", async (req, res) => {
+STORAGE_MEDICOS.get("/med_id=:med_id", async (req, res) => {
   const med_id = req.params.med_id;
   console.log(med_id);
   try {
