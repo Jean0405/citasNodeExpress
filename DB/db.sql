@@ -265,4 +265,4 @@ INSERT INTO
     estado_cita (estcita_id, estcita_nombre)
 VALUES (4, "aplazada");
 
-SELECT * FROM cita;
+SELECT * FROM usuario;
