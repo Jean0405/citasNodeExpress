@@ -12,6 +12,7 @@ const APP = express();
 
 //middleware
 APP.use(express.json());
+APP.use(express.text());
 
 APP.use("/pacientes", STORAGE_PACIENTES);
 APP.use("/citas", STORAGE_CITAS);

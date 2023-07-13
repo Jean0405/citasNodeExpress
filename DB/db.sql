@@ -189,4 +189,27 @@ FROM usuario
 WHERE
     medico.med_nroMatriculaProsional = 112;
 
-    SELECT consultorio.*, usuario.usu_id, usuario.usu_nombre, cita.cit_fecha FROM usuario INNER JOIN cita ON cita.cit_datosUsuario = usuario.usu_id INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo WHERE usuario.usu_id = 1098817567;
+SELECT
+    consultorio.*,
+    usuario.usu_id,
+    usuario.usu_nombre,
+    cita.cit_fecha
+FROM usuario
+    INNER JOIN cita ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+    INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
+WHERE
+    usuario.usu_id = 1098817567;
+
+SELECT
+    usuario.usu_id,
+    usuario.usu_nombre,
+    medico.med_nombreCompleto,
+    cita.cit_fecha
+FROM cita
+    INNER JOIN usuario ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    cita.cit_fecha = "2023-07-20";
+
+SELECT * FROM cita;

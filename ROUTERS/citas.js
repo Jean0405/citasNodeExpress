@@ -2,6 +2,7 @@ import mysql from "mysql2/promise";
 import { Router } from "express";
 
 const STORAGE_CITAS = Router();
+let conn = undefined;
 
 STORAGE_CITAS.use(async (req, res, next) => {
   try {
@@ -9,15 +10,38 @@ STORAGE_CITAS.use(async (req, res, next) => {
     conn = await mysql.createPool(CONFIG_CONN);
     next();
   } catch (error) {
-    res.send(500).send(error + "CONNECTION ERROR");
+    res.send(error + "-> CONNECTION ERROR");
   }
 });
 
-STORAGE_CITAS.get("/:order", async (req, res) => {
+STORAGE_CITAS.get("/orden=:order", async (req, res) => {
   const order = req.params.order.toUpperCase();
   try {
     const [rows, fields] = await conn.execute(
       /*sql*/ `SELECT * FROM cita ORDER BY cit_fecha ${order}`
+    );
+    res.send(rows);
+  } catch (error) {
+    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+  }
+});
+
+STORAGE_CITAS.get("/fecha", async (req, res) => {
+  const cit_fecha = req.body.cit_fecha;
+  console.log(cit_fecha);
+  try {
+    const [rows, fields] = await conn.execute(
+      /*sql*/ `SELECT
+    usuario.usu_id,
+    usuario.usu_nombre,
+    medico.med_nombreCompleto,
+    cita.cit_fecha
+FROM cita
+    INNER JOIN usuario ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+WHERE
+    cita.cit_fecha = ?`,
+      [cit_fecha]
     );
     res.send(rows);
   } catch (error) {
