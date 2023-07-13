@@ -24,7 +24,7 @@ STORAGE_PACIENTES.get("/", async (req, res) => {
   }
 });
 
-STORAGE_PACIENTES.get("/usuario_id=:usu_id", async (req, res) => {
+STORAGE_PACIENTES.get("/?usuario_id=:usu_id", async (req, res) => {
   const usu_id = req.params.usu_id;
   console.log(usu_id);
   try {

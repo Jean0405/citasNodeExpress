@@ -14,7 +14,7 @@ STORAGE_CITAS.use(async (req, res, next) => {
   }
 });
 
-STORAGE_CITAS.get("/orden=:order", async (req, res) => {
+STORAGE_CITAS.get("/?orden=:order", async (req, res) => {
   const order = req.params.order.toUpperCase();
   try {
     const [rows, fields] = await conn.execute(

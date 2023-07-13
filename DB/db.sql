@@ -176,8 +176,6 @@ VALUES (
         1098817567
     );
 
-SELECT * FROM usuario;
-
 SELECT
     usuario.*,
     cita.cit_fecha,
@@ -229,4 +227,15 @@ FROM cita
     INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
 WHERE
     medico.med_nroMatriculaProsional = 112
-    AND cita.cit_fecha = "2023-07-20";
+    AND cita.cit_fecha = "2023-07-20"
+GROUP BY
+    cita.cit_fecha,
+    medico.med_nombreCompleto;
+
+SELECT
+    consultorio.cons_nombre AS consultorio
+FROM cita
+    INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+    INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
+WHERE
+    cita.cit_datosUsuario = 1098817567;

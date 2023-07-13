@@ -15,7 +15,7 @@ STORAGE_CONSULTORIAS.use(async (req, res, next) => {
   }
 });
 
-STORAGE_CONSULTORIAS.get("/id_usuario=:usu_id", async (req, res) => {
+STORAGE_CONSULTORIAS.get("/?id_usuario=:usu_id", async (req, res) => {
   const usu_id = req.params.usu_id;
   console.log(usu_id);
   try {
@@ -28,5 +28,28 @@ STORAGE_CONSULTORIAS.get("/id_usuario=:usu_id", async (req, res) => {
     res.status(500).json({ message: "ERROR TO GET DATA", error: error });
   }
 });
+
+STORAGE_CONSULTORIAS.get(
+  "/consultorios_citas/?id_usuario=:usu_id",
+  async (req, res) => {
+    const usu_id = req.params.usu_id;
+    console.log(usu_id);
+    try {
+      const [rows, fields] = await conn.execute(
+        /*sql*/ `SELECT
+    consultorio.cons_nombre AS consultorio
+    FROM cita
+        INNER JOIN medico ON cita.cit_medico = medico.med_nroMatriculaProsional
+        INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
+    WHERE
+        cita.cit_datosUsuario = ?;`,
+        [usu_id]
+      );
+      res.send(rows);
+    } catch (error) {
+      res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+    }
+  }
+);
 
 export default STORAGE_CONSULTORIAS;
