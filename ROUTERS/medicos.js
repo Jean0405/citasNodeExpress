@@ -51,5 +51,18 @@ WHERE
     res.status(500).json({ message: "ERROR TO GET DATA", error: error });
   }
 });
+STORAGE_MEDICOS.get("/medicos_consultorios", async (req, res) => {
+  try {
+    const [rows, fields] = await conn.execute(/*sql*/ `SELECT
+    medico.med_nroMatriculaProsional,
+    medico.med_nombreCompleto,
+    consultorio.cons_nombre
+FROM medico
+    INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo`);
+    res.send(rows);
+  } catch (error) {
+    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+  }
+});
 
 export default STORAGE_MEDICOS;

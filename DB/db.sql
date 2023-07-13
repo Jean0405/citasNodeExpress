@@ -212,4 +212,9 @@ FROM cita
 WHERE
     cita.cit_fecha = "2023-07-20";
 
-SELECT * FROM cita;
+SELECT
+    medico.med_nroMatriculaProsional,
+    medico.med_nombreCompleto,
+    consultorio.cons_nombre
+FROM medico
+    INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo;
