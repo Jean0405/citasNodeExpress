@@ -149,16 +149,16 @@ INSERT INTO
         usu_acudiente
     )
 VALUES (
-        1098817567,
-        "Daniela",
-        null,
-        "Zapata",
-        "Mora",
-        "3158696969",
-        "Parque de los gatos",
-        "daniLaMasViral@gmail.com",
+        1005184201,
+        "Keanon",
+        "Jeanpierre",
+        "Angarita",
+        "Olarte",
+        "3224097916",
+        "Monterredondo",
+        "Jean0405@gmail.com",
         1,
-        1,
+        2,
         1
     );
 
@@ -170,10 +170,10 @@ INSERT INTO
         cit_datosUsuario
     )
 VALUES (
-        "2023-07-15 02:30:00",
+        "2023-07-30 02:30:00",
         2,
         112,
-        1098817567
+        1005184201
     );
 
 SELECT
@@ -239,3 +239,15 @@ FROM cita
     INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
 WHERE
     cita.cit_datosUsuario = 1098817567;
+
+SELECT
+    cita.cit_fecha,
+    usuario.usu_nombre,
+    genero.gen_nombre
+FROM cita
+    INNER JOIN usuario ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN genero ON usuario.usu_genero = genero.gen_id
+WHERE
+    genero.gen_abreviatura = "F";
+
+SELECT * FROM estado_cita;

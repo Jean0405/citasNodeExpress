@@ -49,4 +49,26 @@ WHERE
   }
 });
 
+STORAGE_CITAS.get("/citas_genero/?genero=:gen", async (req, res) => {
+  const gen = req.params.gen.toUpperCase();
+  console.log(gen);
+  try {
+    const [rows, fields] = await conn.execute(
+      /*sql*/ `SELECT
+    cita.cit_fecha,
+    usuario.usu_nombre,
+    genero.gen_nombre
+FROM cita
+    INNER JOIN usuario ON cita.cit_datosUsuario = usuario.usu_id
+    INNER JOIN genero ON usuario.usu_genero = genero.gen_id
+WHERE
+    genero.gen_abreviatura = ?`,
+      [gen]
+    );
+    res.send(rows);
+  } catch (error) {
+    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+  }
+});
+
 export default STORAGE_CITAS;
