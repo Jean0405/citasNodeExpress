@@ -54,11 +54,13 @@ WHERE
 STORAGE_MEDICOS.get("/medicos_consultorios", async (req, res) => {
   try {
     const [rows, fields] = await conn.execute(/*sql*/ `SELECT
-    medico.med_nroMatriculaProsional,
-    medico.med_nombreCompleto,
-    consultorio.cons_nombre
+    medico.med_nroMatriculaProsional AS id,
+    medico.med_nombreCompleto AS nombre,
+    especialidad.esp_nombre AS especialidad,
+    consultorio.cons_nombre AS consultorio
 FROM medico
-    INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo`);
+    INNER JOIN consultorio ON medico.med_consultorio = consultorio.cons_codigo
+    INNER JOIN especialidad ON medico.med_especialidad = especialidad.esp_id`);
     res.send(rows);
   } catch (error) {
     res.status(500).json({ message: "ERROR TO GET DATA", error: error });
