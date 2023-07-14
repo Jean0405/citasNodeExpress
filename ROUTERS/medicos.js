@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise";
 import { Router } from "express";
-
+import proxyMedicosID from "../MIDDLEWARE/proxyMedicosID.js";
 const STORAGE_MEDICOS = Router();
 
 let conn = undefined;
@@ -29,7 +29,7 @@ STORAGE_MEDICOS.get("/?med_especialidad=:especialidad", async (req, res) => {
   }
 });
 
-STORAGE_MEDICOS.get("/?med_id=:med_id", async (req, res) => {
+STORAGE_MEDICOS.get("/?med_id=:med_id", proxyMedicosID, async (req, res) => {
   const med_id = req.params.med_id;
   console.log(med_id);
   try {
@@ -68,14 +68,17 @@ FROM medico
   }
 });
 
-STORAGE_MEDICOS.get("/medico_citas/?med_id=:med_id", async (req, res) => {
-  const med_nroMatriculaProsional = req.params.med_id;
-  const cit_fecha = req.body.cit_fecha;
-  console.log(med_nroMatriculaProsional);
-  console.log(cit_fecha);
-  try {
-    const [rows, fields] = await conn.execute(
-      /*sql*/ `SELECT
+STORAGE_MEDICOS.get(
+  "/medico_citas/?med_id=:med_id",
+  proxyMedicosID,
+  async (req, res) => {
+    const med_nroMatriculaProsional = req.params.med_id;
+    const cit_fecha = req.body.cit_fecha;
+    console.log(med_nroMatriculaProsional);
+    console.log(cit_fecha);
+    try {
+      const [rows, fields] = await conn.execute(
+        /*sql*/ `SELECT
     COUNT(*) AS total_citas,
     cita.cit_fecha,
     medico.med_nombreCompleto
@@ -84,12 +87,13 @@ FROM cita
 WHERE
     medico.med_nroMatriculaProsional = ?
     AND cita.cit_fecha = ? GROUP BY cita.cit_fecha, medico.med_nombreCompleto`,
-      [med_nroMatriculaProsional, cit_fecha]
-    );
-    res.send(rows);
-  } catch (error) {
-    res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+        [med_nroMatriculaProsional, cit_fecha]
+      );
+      res.send(rows);
+    } catch (error) {
+      res.status(500).json({ message: "ERROR TO GET DATA", error: error });
+    }
   }
-});
+);
 
 export default STORAGE_MEDICOS;

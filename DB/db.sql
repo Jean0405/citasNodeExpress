@@ -266,3 +266,4 @@ INSERT INTO
 VALUES (4, "aplazada");
 
 SELECT * FROM usuario;
+

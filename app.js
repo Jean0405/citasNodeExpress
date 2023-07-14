@@ -1,4 +1,5 @@
 console.clear();
+import "reflect-metadata";
 import express from "express";
 import dotenv from "dotenv";
 import STORAGE_PACIENTES from "./ROUTERS/usuarios.js";

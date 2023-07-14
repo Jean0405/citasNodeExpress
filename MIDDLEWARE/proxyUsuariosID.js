@@ -1,4 +1,4 @@
-import "reflect-metadata";
+
 import express from "express";
 import { plainToClass } from "class-transformer";
 import { UsuarioID } from "../controller/usuariosID.js";
