@@ -7,7 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Expose, Transform } from "class-transformer";
+import { Expose, Type, Transform } from "class-transformer";
+//import {IsDefined, MaxLength, MinLength} from "class-validator";
 export class Usuarios {
     constructor(usu_id, usu_nombre, usu_segdo_nombre_usuar, usu_primer_apellido_usuar, usu_segdo_apellido_usuar, usu_telefono, usu_direccion, usu_email, usu_tipodoc, usu_genero, usu_acudiente) {
         this.usu_id = usu_id;
@@ -63,10 +64,7 @@ __decorate([
 ], Usuarios.prototype, "usu_segdo_apellido_usuar", void 0);
 __decorate([
     Expose({ name: "usu_telefono" }),
-    Transform(({ value }) => { if (/^[\d]+$/.test(value))
-        return value;
-    else
-        throw { status: 400, message: `Error, el dato telefono no es valido` }; }),
+    Type(() => String),
     __metadata("design:type", String)
 ], Usuarios.prototype, "usu_telefono", void 0);
 __decorate([

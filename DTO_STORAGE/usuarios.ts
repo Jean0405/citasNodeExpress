@@ -1,4 +1,5 @@
 import { Expose, Type, Transform} from "class-transformer";
+//import {IsDefined, MaxLength, MinLength} from "class-validator";
 
 export class Usuarios{
   @Expose({ name: "usu_id" })
@@ -23,7 +24,7 @@ export class Usuarios{
   usu_segdo_apellido_usuar:string;
 
   @Expose({ name: "usu_telefono" })
-  @Transform(({ value }) => { if (/^[\d]+$/.test(value)) return value; else throw { status: 400, message: `Error, el dato telefono no es valido` } })
+  @Type(() => String)
   usu_telefono:string;
 
   @Expose({name:"usu_direccion"})
